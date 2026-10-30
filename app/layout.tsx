@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { NeonAuthUIProvider } from "@neondatabase/auth/react";
+import { NeonAuthUIProvider, UserButton } from "@neondatabase/auth/react";
 import { authClient } from "@/lib/auth/client";
 
 const geistSans = Geist({
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <NeonAuthUIProvider authClient={authClient}>
+        <NeonAuthUIProvider authClient={authClient} defaultTheme="dark">
         <header className="border-b border-(--border) bg-(--surface)/90 backdrop-blur">
           <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
             <Link href={"/"} className="text-sm font-semibold tracking-wide">
@@ -41,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               >
                 Dashboard
               </Link>
+              <UserButton size="icon" />
             </nav>
           </div>
         </header>
