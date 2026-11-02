@@ -1,8 +1,12 @@
+import { DashboardContent } from "@/components/dashboard-content"
+import { getSession } from "@/lib/auth/server"
 
-export default function Dashboard() {
+
+export default async function Dashboard() {
+
+    const session = await getSession();
+
     return (
-        <div>
-            Dashboard
-        </div>
-    )
+    <DashboardContent userId={session.data?.user.id} />
+)
 }
