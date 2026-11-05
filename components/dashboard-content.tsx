@@ -3,6 +3,23 @@ import { Button } from "./ui/button";
 import { prisma } from "@/lib/prisma";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import type { RsvpStatus as PrismaRsvpStatus } from "@/app/generated/prisma/enums"
+
+
+export function countByStatus(rsvps: { status: PrismaRsvpStatus }[]) {
+
+    let goingCount = 0;
+    let maybeCount = 0;
+    let notGoingCount = 0;
+
+    for(const r of rsvps){
+        if(r.status === "going") goingCount += 1;
+        if(r.status === "maybe") maybeCount += 1;
+        if(r.status === "not_going") notGoingCount += 1;
+    }
+
+    return { goingCount, maybeCount, notGoingCount }
+}
 
 export async function DashboardContent({ userId }: { userId: string | undefined }) {
 
@@ -14,15 +31,16 @@ export async function DashboardContent({ userId }: { userId: string | undefined 
             title: true,
             eventDate: true,
             location: true,
-
-        }
+            rsvps: { select: { status: true } }
+        },
     })
 
     const events = rows.map((e) => ({
         id: e.id,
         title: e.title,
         eventDate: e.eventDate ? e.eventDate.toISOString() : null,
-        location: e.location
+        location: e.location,
+        ...countByStatus(e.rsvps)
     }))
 
 
@@ -69,9 +87,9 @@ export async function DashboardContent({ userId }: { userId: string | undefined 
                                         </Button>
                                     </div>
                                     <div className="flex flex-wrap gap-2 text-xs">
-                                        <Badge variant="secondary" />
-                                        <Badge variant="secondary" />
-                                        <Badge variant="secondary" />
+                                        <Badge>Going: {event.goingCount}</Badge>
+                                        <Badge variant="secondary">Maybe: {event.maybeCount}</Badge>
+                                        <Badge variant="outline">Not Going: {event.notGoingCount}</Badge>
                                     </div>
                                     <p>
                                         {event.eventDate ? new Date(event.eventDate).toLocaleString() : null}
