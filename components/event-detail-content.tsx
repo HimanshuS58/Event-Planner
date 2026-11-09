@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardHeader } from "./ui/card";
+import { createInviteLinkAction } from "@/lib/actions/events";
 
 export async function EventDetailContent({ userId, eventId }: { userId: string, eventId: string }) {
 
@@ -25,7 +26,7 @@ export async function EventDetailContent({ userId, eventId }: { userId: string, 
         notFound();
     }
 
-    const counts = await countByStatus(row.rsvps);
+    const counts = countByStatus(row.rsvps);
 
     const event = {
         id: row.id,
@@ -38,7 +39,11 @@ export async function EventDetailContent({ userId, eventId }: { userId: string, 
         maybeCount: counts.maybeCount,
         notGoingCout: counts.notGoingCount,
     }
-    
+
+
+    const createInviteActionForEvent = createInviteLinkAction.bind(null, event.id);
+
+    const inviteUrl = event.inviteToken ? `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/invite/${event.inviteToken}` : null;
 
     return (
         <div className="flex flex-col gap-6">
@@ -83,11 +88,23 @@ export async function EventDetailContent({ userId, eventId }: { userId: string, 
                     <p className="text-sm text-muted-foreground">
                         Share this link with guests so they can RSVP without creating an
                         account.
-                        </p>
-
-                        <form>
-                            <Button type="submit">Generate Link</Button>
-                        </form>
+                    </p>
+                    {
+                        inviteUrl
+                            ? (
+                                <div className="rounded-md border border-(--border) bg-(--surface) p-3 text-sm">
+                                    {inviteUrl}
+                                </div>
+                            )
+                            : (
+                                <p className="text-sm text-(--muted-foreground)">
+                                    No invite link generated yet.
+                                </p>
+                            )
+                    }
+                    <form action={createInviteActionForEvent}>
+                        <Button type="submit">Generate Link</Button>
+                    </form>
                 </CardContent>
             </Card>
         </div>
