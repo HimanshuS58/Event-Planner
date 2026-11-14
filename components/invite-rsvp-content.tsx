@@ -108,7 +108,6 @@ export async function InviteRsvpContent({
                                 <option value="not_going">Not going</option>
                             </select>
                         </Field>
-                        {/* <Button disabled type="submit">Submit RSVP</Button> */}
                         {
                             submitted
                                 ? <Button disabled type="submit">Submit RSVP</Button>
