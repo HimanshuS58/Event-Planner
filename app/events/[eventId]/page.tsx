@@ -1,8 +1,12 @@
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { EventDetailContent } from "@/components/event-detail-content";
 import { getSession } from "@/lib/auth/server";
 
 async function EventDetails({ params }: { params: Promise<{ eventId: string }> }) {
+
+ // Wait for an incoming request instead of prerendering.
+    await connection();
 
     const { eventId } = await params;
 
