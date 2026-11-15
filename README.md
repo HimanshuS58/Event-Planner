@@ -10,9 +10,13 @@ Inspired by the need to bridge the gap between simple state-based forms and robu
 Key technical features:
 
 **Full-stack Integration:** Seamless connectivity between a React-based frontend and a fully managed PostgreSQL database powered by Neon.
+
 **Modern Authentication:** Secure user management and protected routing implemented via Neon Auth.
+
 **Data-Driven Events:** Efficient relational database schema design using Prisma to manage events, invites, and attendee responses.
+
 **Interactive UI:** A responsive, clean interface built with Tailwind CSS and Shadcn UI components that support real-time data handling.
+
 **Modular Architecture:** Component-driven development with server-side actions, ensuring clean code, scalability, and an intuitive, account-free RSVP experience for guests.
 
 
