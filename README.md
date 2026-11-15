@@ -1,5 +1,5 @@
 # URL
-https://event-planner-53jw.onrender.com/
+https://event-planner-53jw.onrender.com
 
 
 # Event-Planner
